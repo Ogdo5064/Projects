@@ -1,0 +1,25 @@
+x = input();
+ function g(x, y) {
+   //scope 1
+    z = x + y;
+    print(z);
+    return(function f(a, b) {
+       return a + b;
+    });
+ } 
+ 
+
+ {
+   //scope 1
+   z = 1;
+ }
+
+
+{
+
+z = 123;
+
+z = 2;
+
+}
+

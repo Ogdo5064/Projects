@@ -1,0 +1,4 @@
+make clean
+make
+./a.exe test.txt
+./alpha_avm.exe

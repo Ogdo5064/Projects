@@ -1,0 +1,527 @@
+/*z = x+y;
+function f(a,b){return a+b;}
+function g(){function h(){}}
+x =g;
+x = (function(){});
+*/
+
+//x = [a,b,[1,2,3,4],c,d];
+
+
+/*
+x = [a,b,c,d];
+*/
+
+/*
+x = [{a:a},{b:b},{"string":c},{true:d}];
+*/
+
+
+/*
+x = [{1:1},{2:[{1:1},{2:2},{3:3}]},{3:3}];
+*/
+
+/*
+x = (function(a,b){ return a+b; });
+
+(function(){})();
+*/
+
+/*
+if (x+y >= z-w)
+    f(x,y,z);
+*/
+
+
+/*
+if (a or b)
+    x = y;
+else
+    y = z;
+*/
+
+/*
+while (x-y > z-w)
+    if(b)
+        x=1;
+    else
+        x = x-z;
+*/
+/*
+for ( i =0; i < N; ++i)
+    print("*");
+  */  
+/*
+    if(i<N){
+        print();
+    }*/
+
+
+/*x = f();
+while (x) {
+    function g() {
+        /*break;*/
+        while(true) {
+            continue;
+        }
+    }
+    break;
+}*/
+
+/*
+while(a){
+    a=f(a);
+    if(a)
+        break;
+    else
+        continue;
+
+    continue;
+    break;
+}*/
+
+/*
+function f(){
+    return;
+    return local x;
+    return nil;
+}
+
+*/
+
+x = (
+    -(function(x){
+        return[{"x": x}];
+    })(2).x + 2
+) and not false or 2>=2;
+
+
+//elist
+
+x = [a,b,c,d];
+
+
+
+//indexed
+
+x = [{0:a},{1:b},{2:c},{3:d}]
+
+
+0->a
+
+1->b
+
+2->c
+
+3->d
+
+
+{ KEY : VALUE }
+
+x = [{a:"true"},{b:b},{print:c},{3:(function (){})}]
+
+
+x =  [{123 : (function (a,b){return a+b;})}];
+
+x[123](5,6);
+
+
+x =  [{ "()" : (function (a,b){return a+b;})}];
+
+x(5,6);
+
+
+---------------------------
+
+opdpode result arg1 arg2 label
+
+z = (x+y) * (x-y);
+
+0: add _t0 x y
+1: sub _t1 x y
+2: mul _t2 _t0 _t1
+3: assign z t2 // kathe assign kanei 2 assign 
+4: assign _t3 z (extra assign) : 
+
+---------------------------
+
+a = x >= y or y<= z;
+
+0: if_greatereq x y 3 (if it is true jump to 3)
+1: assign _t1 FALSE
+2: jump 4
+3: assign _t1 TRUE
+
+4: if_lessereq y z 7
+5: assign _t2 FALSE 
+6: jump 8
+7: assign _t2 TRUE
+
+8: or _t3 _t1 _t2
+9: assign a _t3
+10: assign _t4 a (extra assign)
+
+
+----------------------------
+
+a = (x == y);
+
+0: if_eq x y 3
+1: assign _t0 FALSE
+2: jump 4
+3: assign _t0 TRUE
+4: assign a _t0
+5: assign _t1 a
+
+
+-------------------------
+
+x = f(y)(a,b);
+
+0: param y
+1: call f
+2: getretval _t1
+3: param b
+4: param a
+5: call _t1
+6: getretval _t2
+7: assign _t2 x
+
+-------------------------
+
+x = [ 0, 1];
+
+0: tablecreate _t0
+1: tablesetelem 0 _t0 0
+2: tablesetelem 1 _t0 1
+3: assign x _t0
+4: assign _t1 x
+
+
+--------------------------
+
+x = [ {"a" : 0}, {"b" :1}];
+
+0: tablecreate _t0
+1: tablesetelem 0 _t0 "a"
+2: tablesetelem 1 _t0 "b"
+3: assign x _t0
+4: assign _t1 x
+
+---------------------------
+
+x = (function(a,b){return a+b;})();
+
+// to proto kommati einai function definition kai giauto to skipparoume me jump kai den exei kai param
+// meta to () kanei function call to idio function $0 me parametrous ()
+
+0: jump 5
+1: funcstart $0
+2: add _t0 a b
+3: ret _t0
+4: funcend $0
+5: call $0
+6: getretval _t1
+7: assign _x _t1
+8: assign _t2 x
+
+
+--------------------------
+
+x = ++t.x;
+
+// sthn thesh string x apo ton pinaka t baltou +1 kai assign se x variable
+
+0: tablegetelem _t0 t "x"
+1: add _t0 _t0 1
+2: tablesetelem _t0 t "x"
+3: assign x _t0
+4: assign _t1 x
+
+----------------------------
+
+x = t.x--;
+
+0: tablegetelem "x" t _t1
+1: assign _t2 _t1 // duplicate stoixeio , to _t2 tha xrhsimopoihthei gia add to t1 se assign
+2: add _t2 t1 1
+3: tablesetelem t "x" _t2
+4: assign x _t1
+5: assign _t3 x
+
+
+-----------------------------
+
+x = f() and g();
+
+0: call f
+1: getretval _t0
+2: call g
+3: getretval _t1
+4: and _t2 _t1 _t0
+5: assign x _t2
+6: assign _t3 x
+
+
+---------------------------------
+
+----------------------------
+
+
+EXTRA  
+
+---------------------------------
+z=(x+y)*(x-y);
+
+0: add _t0 x y
+1: sub _t1 x y
+2: mul _t2 _t0 _t1
+3: assign z _t2
+4: assign _t3 z
+
+0: add _t0 x y
+1: sub _t1 x y
+2: mul _t2 _t0 _t1
+3: assign z _t2
+4: assign _t3 z
+
+-------------------------------------
+
+a = x >= y or y<= z;
+
+0: if_greatereq x y 4
+1: assign _t0 FALSE
+2: jump 4
+3: assign _t0 TRUE
+
+4: if_lessereq y z 7
+5: assign _t1 FALSE
+6: jump 8
+7: assign _t1 TRUE
+
+8: or _t2 _t0 _t1
+9: assign a _t2
+10: assign _t3 a
+
+
+
+a = x >= y or y<= z;
+
+
+0: if_greatereq x y 3 
+1: assign _t0 false
+2: jump 4
+3: assign _t0 true
+4: if_lessereq y z 7 
+5: assign _t1 false
+6: jump 8
+7: assign _t1 true
+8: or _t2 _t1 _t0
+9: assign a _t2
+10: assign _t3 a
+
+
+--------------------------------------
+
+a = (x == y);
+
+
+0: if_eq x y 3
+1: assign _t0 FALSE
+2: jump 4
+3: assign _t0 TRUE
+4: assign a _t0
+5: assign _t1 a
+
+
+----------------------------------------
+
+
+x = f(y)(a,b);
+
+0: param y
+1: call f
+2: getretval _t0
+3: param a 
+4: param b
+5: call _t0
+6: getretval _t1
+7: assign x _t1
+8: assign _t2 x
+
+
+-------------------------------------------
+
+x = [ 0, 1];
+
+
+0: tablecreate _t0
+1: tablesetelem _t0 0 0
+2: tablesetelem _t0 1 1
+3: assign x _t0
+4: assign _t1 x
+
+
+--------------------------------------------
+
+x = (function(a,b){return a+b;})();
+
+
+0: jump 5
+1: funcstart $0
+2: add _t0 a b
+3: ret _t0
+4: funcend $0
+5: call $0
+6: getretval _t1
+7: assign x _t1
+8: assign _t2 x
+
+---------------------------------------------
+
+x = ++t.x;
+
+
+0: tablegetelem _t0 t "x"
+1: add _t0 _t0 1
+2: tablesetelem _t0 t "x"
+3: assign x _t0
+4: assign _t1 x
+
+----------------------------------------------
+
+x = t.x--;
+
+
+
+0: tablegetelem t "x" _t0
+1: assign _t1 _t0
+2: sub _t1 _t1 1
+3: tablesetelem t "x" _t1
+4: assign x _t0
+5: assign _t2 x
+
+
+--------------------------------------------
+
+
+x = f() and g();
+
+
+0: call f
+1: getretval _t0
+2: call g 
+3: getretval _t1
+4: and _t2 _t0 _t1
+5: assign x _t2
+6: assign _t3 x
+
+--------------------------------------
+
+1: t = [0,1,2,3];
+pinakas t me indexes 0 1 2 3 kai stoixeia 0 1 2 3 
+
+2: t.x.y = 1821;
+psaxnei sto pinaka t sthn thesh string x 
+pou uparxei pinakas ston opoio psaxnei 
+sthn thesh string y
+
+3: t = [ {0:0},{1:1},{2:2},{3,3}];
+pinakas indexed me indexes 0 1 2 3 kai stoixeia 0 1 2 3
+diafora : edo mporoume na peira3oume ta indexes se oti theloume
+
+4: t.x = "1822"
+kanei assign ston pinaka t sthn thesh string x to string 1822
+
+5: t = [{"()" : (function(){return 1823;})}];
+kanei assign ston pinaka t sthn thesh string () to stoixeio
+function(){return 1823;}
+
+6: t();
+eidikh peiptosh paei ston pinaka me index () kai 
+kalei thn sunarthsh pou briskete ekei
+
+7: t["()"]();
+kanei index sto string "()" tou pinaka t
+kai kalei thn sunarthsh pou uparxei mesa 
+
+8: t.x = t["()"];
+kanei assign sthn thesh string x tou pinaka t
+den kalei thn sunarthsh dhladh apla thn bazei se allh thesh
+
+9: t.x();
+an exei prohghthei h 8 entolh tote kalei thn sunarthsh
+tou pinaka t pou briskete sthh thesh string "x"
+
+10: t[x]();
+idio pragma akribos me to 9
+
+11: t.x = nil;
+bazei nil sth thesh string "x" tou pinaka t
+
+12: t.x();
+den kanei tipota giati mhdenisame prin thn thesh string "x"
+tou pinaka t
+
+13: r = x;
+bale sto r to x
+
+14: x = nil;
+bale sto x to nil
+
+15: r(); 
+kalei mia sunarthsh mallon?? den 3ero ti einai to r kai to x 
+
+16: r = nil
+bale sto r to nil
+
+
+
+
+
+
+
+
+
+
+
+typedef enum vmopcode{
+    assign_v,
+    mul_v,
+    uminus_v,
+    not_v,
+    jle_v,
+    jgt_v,
+    funcenter_v,
+    tablegetelem_v,
+    add_v,
+    div_v,
+    and_v,
+    jeq_v,
+    jge_v,
+    call_v,
+    funcexit_v,
+    tablesetelem_v,
+    sub_v,
+    mod_v,
+    or_v,
+    jne_v,
+    jlt_v,
+    pusharg_v,
+    newtable_v,
+    nop_v,
+}vmopcode;
+
+
+enum iopcode // perigrafei ti pra3h tha ginei
+{
+    assign, add, sub,
+    mul, divv, mod,
+    uminus, and, or,
+    not, call, param,
+    ret, getretval, funcstart,
+    funcend, tablecreate,tablegetelem,tablesetelem,
+    if_eq, if_noteq,
+    if_lesseq, if_greatereq, if_less,
+    if_greater, jump
+};

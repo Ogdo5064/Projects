@@ -1,0 +1,38 @@
+/*x=1;
+y="this is a string";
+
+function f(){}
+
+print(typeof(x),"\n");
+print(typeof(y),"\n");
+print(typeof(f),"\n");
+print(typeof(cos),"\n");
+
+
+print("\n\n\n");
+*/
+
+function foo(x,y,z){
+    t=totalarguments();
+    print(t,"\n");
+
+
+    print(argument(0)," ",x);
+    print("\n");
+    print(argument(1)," ",y);
+    print("\n");
+    print(argument(2)," ", z);
+    print("\n");
+    print(argument(3));
+    print("\n");
+    print(argument(4));
+    print("\n");
+    print(argument(5));
+    print("\n");
+    print(argument(6));
+    print("\n");
+}
+
+foo(100,"test",true,cos,foo,[],700);
+
+

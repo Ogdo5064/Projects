@@ -1,0 +1,83 @@
+
+
+tableitem->lvalue.id
+        {$tableitem = member_item($lvalue, id.name);}
+
+
+
+
+expr->expr1 + expr2
+{
+    $expr = newexpr(arithexpr_e);
+    $expr->sym = newtemp();
+    emit(add , $expr1 , $expr2 , $expr);
+}
+
+assignexpr->lvalue = expr
+{
+    emit(assign , $expr , NULL , $lvalue);
+}
+
+
+
+
+
+lvalue->id
+    {
+        sym = lookup(id.name);
+        if(sym = nil)
+        {
+            sym = newsymbol(id.name);
+            sym.space = currscopespace();
+            sym.offset = currscopeoffset();
+            inccurrscopeoffset();
+        }
+        lvalue.sval = lvalue_expr(sym);
+    }
+
+lvalue->local id
+{ 
+    sym = lookup(id.name, currscope());
+    if (sym = nil)
+    {
+        sym = newsymbol(id.name);
+        sym.space = currscopespace();
+        sym.offset = currscopeoffset();
+        inccurrscopeoffset();
+    }
+    else 
+    {
+    }
+    lvalue.sval = lvalue_expr(sym);
+}
+
+
+lvalue->id
+{
+	symbol = ...; //lookup $id or create new
+	$lvalue = newexpr(var_e);
+	$lvalue->sym = symbol;
+	
+}
+
+const->number
+{
+	$const = newexpr(constnum_e);
+	$const->numConst = $number;
+}
+
+
+expr expr1 + expr2 {
+$expr = newexpr(arithexpr_e);
+$expr->sym = newtemp();
+emit(add, $expr1, $expr2, $expr);
+}
+
+assignexpr ->lvalue = expr {
+emit(assign, $expr, NULL, $lvalue);//other checks and emits here as well
+}
+
+
+
+
+

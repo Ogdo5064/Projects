@@ -1,0 +1,23 @@
+//x = (function(a,b){return a+b;})();
+
+//x = (function(a,b){return a+b;});
+
+
+//x = ++t.x;
+
+
+//x = t.x--;
+
+//if(x == 1) ++x; else --x;
+
+//x = f() and g();
+
+//x = 5;
+
+//f(x=1,x=2,x=3);
+
+//x = f() and g();
+
+//x = true and true;
+
+//x = ++t.x;
