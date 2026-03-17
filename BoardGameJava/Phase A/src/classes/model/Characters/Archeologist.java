@@ -1,0 +1,26 @@
+package classes.model.Characters;
+
+
+import classes.model.Board.Area;
+import classes.model.Board.Board;
+import classes.model.Player.Player;
+
+import java.io.Serializable;
+import java.util.EnumMap;
+
+/**
+ * Represents the archeologist character
+ */
+public class Archeologist extends Character implements Serializable {
+
+    @Override
+    public EnumMap<Area, Integer> ability(Board board, Player player, Area forbiddenArea){
+        EnumMap<Area,Integer> map  = new EnumMap<>(Area.class);
+        map.put(Area.ANY,2);
+        if(forbiddenArea != null) {
+            map.put(forbiddenArea, 0);
+        }
+        return map;
+    }
+}
+
